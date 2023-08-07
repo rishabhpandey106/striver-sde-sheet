@@ -1,0 +1,47 @@
+Node *twolistmerger(Node *root , Node *nextroot)
+{
+    Node *temp = new Node(0);
+    Node *merged = temp;
+    
+    while(root != NULL && nextroot != NULL)
+    {
+        if(root -> data < nextroot -> data)
+        {
+            temp -> bottom = root;
+            temp = temp -> bottom;
+            root = root -> bottom;
+        }
+        else
+        {
+            temp -> bottom = nextroot;
+            temp = temp -> bottom;
+            nextroot = nextroot -> bottom;
+        }
+    }
+    
+    if(root)
+    {
+        temp -> bottom = root;
+    }
+    else
+    {
+        temp -> bottom = nextroot;
+    }
+    
+    return merged -> bottom;
+}
+
+Node *flatten(Node *root)
+{
+   // Your code here
+   if(root == NULL || root->next == NULL)
+   {
+       return root;
+   }
+   
+   root -> next = flatten(root -> next);
+   
+   root = twolistmerger(root , root -> next);
+   
+   return root;
+}
